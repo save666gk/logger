@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
-from .models import Post, Category
+from .models import Post, Category, User
 from .filters import PostFilter
 from .forms import PostForm
 from django.urls import reverse_lazy
@@ -107,3 +107,4 @@ def subscribe(request, pk):
 
     message = 'Вы успешно подписались на рассылку новостей категории'
     return render(request, 'flatpages/subscribe.html', {"category": category, "message": message})
+

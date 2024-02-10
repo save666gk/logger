@@ -1,10 +1,13 @@
 from django.core.mail import send_mail
 from django.db import models
-from datetime import datetime, timezone
+from datetime import datetime, timedelta
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils import timezone
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 class Author(models.Model):
     authorUser = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -25,6 +28,38 @@ class Author(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=256, unique=True)
     subscribers = models.ManyToManyField(User, blank=True, related_name='categories')
+
+    def get_new_articles_for_subscribers(self):
+        week_ago = timezone.now() - timezone.timedelta(days=7)
+        new_articles_for_subscribers = {}
+
+        for subscriber in self.subscribers.all():
+            new_posts = Post.objects.filter(category=self, dateCreation__gte=week_ago)
+            new_articles_for_subscribers[subscriber.username] = list(
+                new_posts)  # Сохраняем новые статьи для текущего подписчика
+
+            article_data = [(post.title, post.id) for post in new_articles_for_subscribers[subscriber.username]]
+            # Генерируем сообщение, используя HTML-шаблон и список кортежей article_data
+            message = render_to_string('flatpages/new_articles_notification.html',
+                                       {'subscriber': subscriber, 'article_data': article_data})
+
+            # Устанавливаем тему электронного письма
+            subject = 'Список новых статей'
+
+            # Устанавливаем отправителя
+            from_email = 'danilka19711@yandex.ru'  # Укажите свой адрес электронной почты
+
+            # Получаем адрес электронной почты получателя
+            subscriber_email = subscriber.email
+
+            # Отправляем электронное письмо
+            send_mail(
+                subject,
+                message,
+                from_email,
+                [subscriber_email],
+                html_message=message,
+            )
 
     def __str__(self):
         return self.name
@@ -59,7 +94,7 @@ class Post(models.Model):
         self.save()
 
     def preview(self):
-        return self.text[124] + '...'
+        return self.text
 
 
 class PostCategory(models.Model):

@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
     'django_filters',
     'news.apps.NewsConfig',
+    'django_apscheduler',
 
 
     'allauth',
@@ -157,9 +158,12 @@ STATICFILES_DIRS = [
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_TEMPLATES = {
+    'signup': 'flatpages/Privet.html',
+}
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
@@ -171,5 +175,11 @@ SITE_URL = 'http://127.0.0.1:8000'
 EMAIL_HOST = 'smtp.yandex.ru'  # адрес сервера Яндекс-почты для всех один и тот же
 EMAIL_PORT = 465  # порт smtp сервера тоже одинаковый
 EMAIL_HOST_USER = 'danilka19711@yandex.ru'  # ваше имя пользователя, например, если ваша почта user@yandex.ru, то сюда надо писать user, иными словами, это всё то что идёт до собаки
-EMAIL_HOST_PASSWORD = '079100233a'  # пароль от почты
+EMAIL_HOST_PASSWORD = 'upboztryeavrtjuq'  # пароль от почты
 EMAIL_USE_SSL = True  # Яндекс использует ssl, подробнее о том, что это, почитайте в дополнительных источниках, но включать его здесь обязательно
+DEFAULT_FROM_EMAIL = 'danilka19711@yandex.ru'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW_TIMEOUT = 25

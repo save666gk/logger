@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добро пожаловать!</title>
+</head>
+<body>
+    <p>Здравствуйте, {{ user.username }}!</p>
+    <p>Спасибо за регистрацию! Мы рады приветствовать вас в нашем сообществе.</p>
+    <p>Для активации вашей учетной записи, пожалуйста, перейдите по ссылке ниже:</p>
+    <a href="{{ activate_url }}">Ссылка на активацию</a>
+    <p>С наилучшими пожеланиями,<br>Ваша команда проекта</p>
+</body>
+</html>

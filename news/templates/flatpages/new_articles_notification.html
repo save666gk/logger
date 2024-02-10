@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Уведомление о новых статьях</title>
+</head>
+<body>
+    <h1>Уведомление о новых статьях</h1>
+    <p>Здравствуйте, {{ subscriber.username }}!</p>
+    <p>Приглашаем вас ознакомиться с новыми статьями:</p>
+    <ul>
+        {% for title, id in article_data %}
+            <li><a href="{{ url }}">{{ title }}</a></li>
+        {% endfor %}
+    </ul>
+    <p>Благодарим вас за внимание!</p>
+</body>
+</html>
