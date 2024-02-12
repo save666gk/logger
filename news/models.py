@@ -81,9 +81,13 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):  # добавим абсолютный путь, чтобы после создания нас перебрасывало на страницу с товаром
+        return f'/post/{self.id}'
 
-    def get_absolute_url(self):
-        return reverse('post_detail', args=[str(self.pk)])
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)  # сначала вызываем метод родителя, чтобы объект сохранился
+        from django.core.cache import cache
+        cache.delete(f'post-{self.pk}')
 
     def like(self):
         self.rating += 1
