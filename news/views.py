@@ -7,7 +7,8 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
-
+# from .tasks import get_new_articles_for_subscribers
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
 class PostList(ListView):
@@ -60,6 +61,10 @@ class PostCreate(PermissionRequiredMixin, CreateView):
     # и новый шаблон, в котором используется форма.
     template_name = 'flatpages/post_edit.html'
     permission_required = ('news.add_post',)
+
+
+
+
 
 class PostUpdate(PermissionRequiredMixin,UpdateView):
     form_class = PostForm
